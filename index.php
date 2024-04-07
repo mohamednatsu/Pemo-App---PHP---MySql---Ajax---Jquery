@@ -262,7 +262,6 @@ button {
 
     <div class="register">
         <div class="main">  
-            <div id="response"></div>
             <h2 class="main-text">Registration</h2>
             <div id="error-message"></div>
             <div id="success-message"></div>
@@ -381,6 +380,19 @@ $(document).ready(function() {
             $('#email').removeClass("Notvalid");
         }
 
+        // validate of date
+        if (date.trim() === '') {
+            $('#error-message').show();
+            $('#error-message').html('Please enter The Birthdate');
+            $('#date').removeClass("border-style");
+            $('#date').addClass("Notvalid");
+            return false;
+        }
+        else {
+            $('#date').addClass("border-style");
+            $('#date').removeClass("Notvalid");
+        }
+
         // validate of password
         if (password.trim() === '') {
             $('#error-message').show();
@@ -392,6 +404,25 @@ $(document).ready(function() {
         else {
             $('#password').addClass("border-style");
             $('#password').removeClass("Notvalid");
+        }
+
+        if (rePasword.trim() === '') {
+            $('#error-message').show();
+            $('#error-message').html('Please enter a Confirm Password');
+            $('#RePassword').removeClass("border-style");
+            $('#RePassword').addClass("Notvalid");
+            return false;
+        }
+        else if(rePasword.trim() !== password) {
+            $('#error-message').show();
+            $('#error-message').html('Confirm Password Will Not Equal Password!');
+            $('#RePassword').removeClass("border-style");
+            $('#RePassword').addClass("Notvalid");
+            return false;
+        }
+        else {
+            $('#RePassword').addClass("border-style");
+            $('#RePassword').removeClass("Notvalid");
         }
         
 
@@ -446,26 +477,21 @@ $(document).ready(function() {
         
         $.ajax({
             type: 'POST',
-            url: 'submit.php',
+            url: 'DB_Ops.php',
             data: $('#formRegister').serialize(),
             success: function(response) {
-                $('#response').html(response); 
+                 // For demonstration, we'll just log the form data
+                $('#error-message').hide();
+                $('#success-message').addClass("success-message");
+                $('#success-message').show();
+                $('#success-message').html(response);
             },
             error: function(xhr, status, error) {
-                $('#response').html(error); 
+                $('#error-message').show();
+                $('#error-message').html(error);
             }
         });
         
-        
-        // For demonstration, we'll just log the form data
-        console.log('Form submitted successfully!');
-        console.log('Username: ' + username);
-        console.log('Email: ' + email);
-        console.log('Password: ' + password);
-        $('#error-message').hide();
-        $('#success-message').addClass("success-message");
-        $('#success-message').show();
-        $('#success-message').html('Form submitted successfully!');
 
     });
 });

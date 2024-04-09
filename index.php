@@ -78,6 +78,12 @@
 
 .menu .mn p {
     color: #777;
+    cursor: pointer;
+}
+
+.mn p:hover {
+    color: blueviolet;
+    text-decoration: underline;
 }
 
 .info {
@@ -298,12 +304,12 @@ button {
                 
                 <div class="feild">
                     <label for="">Password</label>
-                    <input class="border-style" type="password" id="password" name="password">
+                    <input class="border-style" type="text" id="password" name="password">
                 </div>
 
                 <div class="feild">
                     <label for="">Re-Password</label>
-                    <input class="border-style" type="password" id="RePassword" name="RePassword">
+                    <input class="border-style" type="text" id="RePassword" name="RePassword">
                 </div>
                 <button type="submit" class="btn">Register</button>
             </form>
@@ -368,6 +374,7 @@ $(document).ready(function() {
         }
         
         // validate of email
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (email.trim() === '') {
             $('#error-message').show();
             $('#error-message').html('Please enter an email');
@@ -375,6 +382,14 @@ $(document).ready(function() {
             $('#email').addClass("Notvalid");
             return false;
         }
+        else if (!emailRegex.test(email)) {
+            $('#error-message').show();
+            $('#error-message').html('Please enter a valid email');
+            $('#email').removeClass("border-style");
+            $('#email').addClass("Notvalid");
+            return false;
+        }
+
         else {
             $('#email').addClass("border-style");
             $('#email').removeClass("Notvalid");
@@ -393,10 +408,54 @@ $(document).ready(function() {
             $('#date').removeClass("Notvalid");
         }
 
+        var phoneNumberPattern = /^(010|011|012)[0-9]{8}$/;
+        if (phone.trim() === '') {
+            $('#error-message').show();
+            $('#error-message').html('Please enter a Phone number');
+            $('#phone').removeClass("border-style");
+            $('#phone').addClass("Notvalid");
+            return false;
+        }
+        else if (!phoneNumberPattern.test(phone)) {
+            $('#error-message').show();
+            $('#error-message').html('Phone number will be start 010, 011 or 012');
+            $('#phone').removeClass("border-style");
+            $('#phone').addClass("Notvalid");
+            return false;
+        }
+        else {
+            $('#phone').addClass("border-style");
+            $('#phone').removeClass("Notvalid");
+        }
+
+
+        // validate of address
+        if (address.trim() === '') {
+            $('#error-message').show();
+            $('#error-message').html('Please enter The Address');
+            $('#address').removeClass("border-style");
+            $('#address').addClass("Notvalid");
+            return false;
+        }
+        else {
+            $('#address').addClass("border-style");
+            $('#address').removeClass("Notvalid");
+        }
+
         // validate of password
+        // Replace this with the password you want to validate
+        const regexPassword = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+
         if (password.trim() === '') {
             $('#error-message').show();
             $('#error-message').html('Please enter a password');
+            $('#password').removeClass("border-style");
+            $('#password').addClass("Notvalid");
+            return false;
+        }
+        else if (!regexPassword.test(password)) {
+            $('#error-message').show();
+            $('#error-message').html('Phone number will be start a valid Password');
             $('#password').removeClass("border-style");
             $('#password').addClass("Notvalid");
             return false;
@@ -406,6 +465,8 @@ $(document).ready(function() {
             $('#password').removeClass("Notvalid");
         }
 
+
+        // validate of re password
         if (rePasword.trim() === '') {
             $('#error-message').show();
             $('#error-message').html('Please enter a Confirm Password');
@@ -425,51 +486,7 @@ $(document).ready(function() {
             $('#RePassword').removeClass("Notvalid");
         }
         
-
-        // validate of phone
-        if (phone.trim() === '') {
-            $('#error-message').show();
-            $('#error-message').html('Please enter a Phone number');
-            $('#phone').removeClass("border-style");
-            $('#phone').addClass("Notvalid");
-            return false;
-        }
-        else {
-            $('#phone').addClass("border-style");
-            $('#phone').removeClass("Notvalid");
-        }
         
-
-        // validate of address
-        if (address.trim() === '') {
-            $('#error-message').show();
-            $('#error-message').html('Please enter a Address');
-            $('#address').removeClass("border-style");
-            $('#address').addClass("Notvalid");
-            return false;
-        }
-        else {
-            $('#address').addClass("border-style");
-            $('#address').removeClass("Notvalid");
-        }
-
-        // regex in case of validation
-        var phoneNumberPattern = /^(010|011|012)[0-9]{8}$/;
-        
-        // Test the phone number pattern
-        if (!phoneNumberPattern.test(phone)) {
-            $('#error-message').html('Please enter a Phone number');
-            $('#error-message').show();
-            return false;
-        }
-
-        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            $('#error-message').show();
-            $('#error-message').html('Please enter a valid email');
-            $('#email').addClass("Notvalid");
-            return false;
-        }
         // If all validation passes, you can proceed with form submission
         // Here, you can use AJAX to submit the form data to the server
         
@@ -481,10 +498,18 @@ $(document).ready(function() {
             data: $('#formRegister').serialize(),
             success: function(response) {
                  // For demonstration, we'll just log the form data
-                $('#error-message').hide();
-                $('#success-message').addClass("success-message");
-                $('#success-message').show();
-                $('#success-message').html(response);
+                if (response == "Form submitted successfully!") {
+                    $('#error-message').hide();
+                    $('#success-message').addClass("success-message");
+                    $('#success-message').show();
+                    $('#success-message').html(response);
+                }
+                else {
+                    $('#success-message').hide();
+                    // $('#error-message').addClass("success-message");
+                    $('#error-message').show();
+                    $('#error-message').html(response);
+                }
             },
             error: function(xhr, status, error) {
                 $('#error-message').show();
@@ -495,8 +520,6 @@ $(document).ready(function() {
 
     });
 });
-
-console.log("goooooo")
     </script>
 </body>
 </html>

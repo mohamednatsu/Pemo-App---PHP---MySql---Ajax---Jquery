@@ -210,12 +210,7 @@ button {
     box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
 }
 
-.btn:hover {
-    transform: scale(1.08);
-}
-.btn:not(:hover) {
-    transform: scale(1.00);
-}
+
 
 .feild input:focus {
     border: blueviolet 1px solid;
@@ -256,6 +251,73 @@ button {
     font-size: larger;
     margin: 10px auto;
     border: double 1px #D4EDDA;
+}
+
+.drop-container {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px dashed #555;
+    color: #444;
+    cursor: pointer;
+    transition: background .2s ease-in-out, border .2s ease-in-out;
+    margin-top: 50px;
+}
+
+.drop-container:hover {
+    background: rgba(138,43,226, 0.2);
+    border-color: blueviolet;
+}
+
+.drop-container:hover .drop-title {
+    color: #222;
+}
+
+.drop-title {
+    color: #444;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    transition: color .2s ease-in-out;
+}
+.drop-title-choose {
+    color: #444;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    transition: color .2s ease-in-out;
+    border: 1px solid blueviolet;
+    padding: 10px 20px;
+    border-radius: 7px;
+    background-color: #fff;
+}
+
+#upload {
+    background-color: #222;
+    width: 40%;
+    padding: 25px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 15px;
+    font-size: 20px;
+    transition: all 0.5s ease-in-out;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+}
+
+.btn:hover , #upload:hover {
+    transform: scale(1.08);
+}
+.btn:not(:hover), #upload:not(:hover) {
+    transform: scale(1.00);
 }
 </style>
 <body>
@@ -311,7 +373,17 @@ button {
                     <label for="">Re-Password</label>
                     <input class="border-style" type="text" id="RePassword" name="RePassword">
                 </div>
-                <button type="submit" class="btn">Register</button>
+
+                
+                <label for="imageInput" class="drop-container" id="dropcontainer">
+                <span class="drop-title">Drop files here</span>
+                or
+                <span class="drop-title-choose">Choose File</span>
+                <input type="file"  id="imageInput">
+                <button onsubmit="updateFileName()" type="button" id="upload">Upload</button>
+                </label>
+                
+                <button  name="submitReg" type="submit" class="btn">Register</button>
             </form>
 
         </div>
@@ -324,8 +396,24 @@ button {
             include 'Footer.php';
         ?>
     </div>
-    <script>
-        
+<script>
+
+        function updateFileName() {
+            // Get the file input element
+            var fileInput = document.getElementById('imageInput');
+
+            // Get the selected file
+            var file = fileInput.files[0];
+
+            // Get the name of the file
+            var fileName = file ? file.name : '';
+
+            // Update the content of the paragraph element with the file name
+            console.log(fileName)
+
+            // Return false to prevent form submission
+            return false;
+        }
 
 $('#error-message').hide();
 $('#success-message').hide();
@@ -520,6 +608,8 @@ $(document).ready(function() {
 
     });
 });
+
+console.log("goooooo")
     </script>
 </body>
 </html>

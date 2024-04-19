@@ -319,6 +319,28 @@ button {
 .btn:not(:hover), #upload:not(:hover) {
     transform: scale(1.00);
 }
+
+#born {
+    text-transform: capitalize;
+    width: 39%;
+    height: 40%;
+    padding: 3% 2%;
+}
+
+.date-feild {
+    display: flex;
+    width: 78.5%;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.mn button:hover, #born:hover {
+    transform: translateY(-5px);
+}
+.mn button:not(:hover) , #born:not(:hover) {
+    transform: translateY(0px);
+}
 </style>
 <body>
     <div class="">
@@ -351,7 +373,11 @@ button {
 
                 <div class="feild">
                     <label for="">Birthdate</label>
-                    <input class="border-style" type="date" id="date" name="date">
+                    <div class="date-feild">
+                        <input class="border-style" type="date" id="date" name="date">
+                        <button type="button" id="born">checks actors born </button>
+                        <div id="responseContainer"></div>
+                    </div>
                 </div>
 
                 <div class="feild">
@@ -608,8 +634,6 @@ $(document).ready(function() {
 
     });
 });
-
-console.log("goooooo")
     </script>
 </body>
 </html>
